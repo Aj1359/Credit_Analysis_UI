@@ -13,25 +13,25 @@ const navigationItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "#",
+    href: "/",
     active: true
   },
   {
     title: "Issuers",
     icon: CreditCard,
-    href: "#",
+    href: "/issuers",
     active: false
   },
   {
     title: "Monitor",
     icon: Monitor,
-    href: "#",
+    href: "/monitor",
     active: false
   },
   {
     title: "Analytics",
     icon: BarChart3,
-    href: "#",
+    href: "/analytics",
     active: false
   }
 ];
