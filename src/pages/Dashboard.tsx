@@ -2,7 +2,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DashboardGrid } from "@/components/DashboardGrid";
 
-const Index = () => {
+export default function Dashboard() {
   return (
     <div className="min-h-screen bg-dashboard-bg flex">
       <Sidebar />
@@ -14,6 +14,4 @@ const Index = () => {
       </div>
     </div>
   );
-};
-
-export default Index;
+}

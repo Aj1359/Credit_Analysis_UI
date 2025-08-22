@@ -61,7 +61,37 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Financial Dashboard Colors
+				'dashboard-bg': 'hsl(var(--dashboard-bg))',
+				'sidebar-bg': 'hsl(var(--sidebar-bg))',
+				'sidebar-hover': 'hsl(var(--sidebar-hover))',
+				'sidebar-active': 'hsl(var(--sidebar-active))',
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				danger: {
+					DEFAULT: 'hsl(var(--danger))',
+					foreground: 'hsl(var(--danger-foreground))'
+				},
+				'metric-positive': 'hsl(var(--metric-positive))',
+				'metric-negative': 'hsl(var(--metric-negative))',
+				'metric-neutral': 'hsl(var(--metric-neutral))'
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-success': 'var(--gradient-success)',
+				'gradient-card': 'var(--gradient-card)'
+			},
+			boxShadow: {
+				'card': 'var(--shadow-card)',
+				'card-hover': 'var(--shadow-card-hover)',
+				'sidebar': 'var(--shadow-sidebar)'
+			},
+			transitionProperty: {
+				'smooth': 'var(--transition-smooth)',
+				'card': 'var(--transition-card)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
