@@ -1,18 +1,11 @@
 import { useState, useMemo } from "react";
-import { 
-  Search, 
-  ArrowUpDown, 
-  ArrowUp, 
-  ArrowDown,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-  ExternalLink
-} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ChevronUp, ChevronDown, Search, TrendingUp, TrendingDown, Minus, ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { issuersData, type Issuer } from "@/data/issuers";
 
@@ -54,9 +47,10 @@ function getTrendColor(trend: string) {
 }
 
 export function IssuersTable() {
+  const navigate = useNavigate();
+  const [sortField, setSortField] = useState<keyof Issuer | null>("creditScore");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>("desc");
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortField, setSortField] = useState<SortField | null>(null);
-  const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
   const filteredAndSortedData = useMemo(() => {
     let filtered = issuersData.filter(
@@ -88,7 +82,7 @@ export function IssuersTable() {
     return filtered;
   }, [searchTerm, sortField, sortDirection]);
 
-  const handleSort = (field: SortField) => {
+  const handleSort = (field: keyof Issuer) => {
     if (sortField === field) {
       setSortDirection(
         sortDirection === "asc" ? "desc" : sortDirection === "desc" ? null : "asc"
@@ -102,7 +96,7 @@ export function IssuersTable() {
     }
   };
 
-  const getSortIcon = (field: SortField) => {
+  const getSortIcon = (field: keyof Issuer) => {
     if (sortField !== field) {
       return <ArrowUpDown className="w-4 h-4 text-muted-foreground" />;
     }
@@ -115,11 +109,6 @@ export function IssuersTable() {
     return <ArrowUpDown className="w-4 h-4 text-muted-foreground" />;
   };
 
-  const handleRowClick = (issuerId: string) => {
-    // Navigate to issuer detail page
-    console.log(`Navigate to issuer detail: ${issuerId}`);
-    // TODO: Implement navigation when detail page is ready
-  };
 
   return (
     <Card className="shadow-card">
@@ -222,7 +211,7 @@ export function IssuersTable() {
                 <tr
                   key={issuer.id}
                   className="border-b border-border hover:bg-muted/50 cursor-pointer transition-smooth"
-                  onClick={() => handleRowClick(issuer.id)}
+                  onClick={() => navigate(`/issuer/${issuer.id}`)}
                 >
                   <td className="p-4">
                     <div>
@@ -266,7 +255,7 @@ export function IssuersTable() {
                       className="h-8 w-8 p-0"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleRowClick(issuer.id);
+                        navigate(`/issuer/${issuer.id}`);
                       }}
                     >
                       <ExternalLink className="w-4 h-4" />

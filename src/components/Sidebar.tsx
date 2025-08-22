@@ -1,113 +1,77 @@
-import { 
-  LayoutDashboard, 
-  CreditCard, 
-  Monitor, 
-  BarChart3,
-  Bell,
-  Settings,
-  LogOut
-} from "lucide-react";
+import { BarChart3, Building, Monitor, TrendingUp, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLocation, Link } from "react-router-dom";
 
-const navigationItems = [
-  {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/",
-    active: true
-  },
-  {
-    title: "Issuers",
-    icon: CreditCard,
-    href: "/issuers",
-    active: false
-  },
-  {
-    title: "Monitor",
-    icon: Monitor,
-    href: "/monitor",
-    active: false
-  },
-  {
-    title: "Analytics",
-    icon: BarChart3,
-    href: "/analytics",
-    active: false
-  }
-];
-
-const bottomItems = [
-  {
-    title: "Notifications",
-    icon: Bell,
-    href: "#"
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-    href: "#"
-  },
-  {
-    title: "Sign Out",
-    icon: LogOut,
-    href: "#"
-  }
+const navigation = [
+  { name: "Dashboard", href: "/", icon: BarChart3 },
+  { name: "Issuers", href: "/issuers", icon: Building },
+  { name: "Monitor", href: "/monitor", icon: Monitor },
+  { name: "Analytics", href: "/analytics", icon: TrendingUp },
 ];
 
 export function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
   return (
-    <div className="w-64 bg-sidebar-bg border-r border-border h-screen flex flex-col shadow-sidebar">
-      {/* Logo */}
-      <div className="p-6 border-b border-border">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <CreditCard className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-lg font-semibold text-foreground">CreditScore</h1>
-            <p className="text-xs text-muted-foreground">Financial Platform</p>
-          </div>
+    <>
+      {/* Mobile menu button */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="lg:hidden fixed top-4 left-4 z-50"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </Button>
+
+      {/* Sidebar */}
+      <div className={cn(
+        "w-64 bg-card border-r border-border flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 fixed lg:relative h-full z-40",
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="p-6 border-b border-border">
+          <h1 className="text-xl font-bold text-primary">CreditVision</h1>
+          <p className="text-sm text-muted-foreground">Financial Dashboard</p>
         </div>
+        
+        <nav className="flex-1 p-4">
+          <ul className="space-y-2">
+            {navigation.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.href;
+              
+              return (
+                <li key={item.name}>
+                  <Link
+                    to={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors",
+                      isActive
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </div>
 
-      {/* Main Navigation */}
-      <nav className="flex-1 p-4 space-y-2">
-        {navigationItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <a
-              key={item.title}
-              href={item.href}
-              className={cn(
-                "flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-smooth",
-                item.active
-                  ? "bg-sidebar-active text-white shadow-sm"
-                  : "text-muted-foreground hover:bg-sidebar-hover hover:text-foreground"
-              )}
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.title}</span>
-            </a>
-          );
-        })}
-      </nav>
-
-      {/* Bottom Navigation */}
-      <div className="p-4 border-t border-border space-y-2">
-        {bottomItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <a
-              key={item.title}
-              href={item.href}
-              className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-sidebar-hover hover:text-foreground transition-smooth"
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.title}</span>
-            </a>
-          );
-        })}
-      </div>
-    </div>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </>
   );
 }
