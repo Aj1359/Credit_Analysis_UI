@@ -44,3 +44,5 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+
+deployed project link for temporary purpose: https://credit-vision-dash.lovable.app
